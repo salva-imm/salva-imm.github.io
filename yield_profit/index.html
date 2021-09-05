@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Vazir.css" rel="stylesheet">
+    <title>محاسبه گر سود مرکب</title>
+</head>
+<style>
+  body{
+    font-family: 'Vazir', sans-serif;
+  }
+  .center {
+  max-width: 600px;
+  height: 400px;
+  border: 1px solid #c3c3c3;
+  direction: rtl;
+  text-align: right;
+  padding: 50px;
+  margin: 0 auto;
+}
+input[type=text], input[type=number], select {
+  width: 100px;
+  margin: 3px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+</style>
+
+<body>
+<div class="center">
+  <h3>محاسبه گر سود مرکب</h3>
+    من <input class="init" type="number" placeholder="عدد وارد کنید"> دلار/ریال سرمایه دارم
+     <br> <br>
+
+
+    هر <select name="period" class="period">
+      <option value="day">روز</option>
+      <option value="week">هفته</option>
+      <option value="month">ماه</option>
+      <option value="year">سال</option>
+    </select>
+    سودی که در میارم 
+    <input class="profit" type="number" placeholder="عدد وارد کنید"> 
+    %
+    هست <br> <br>
+
+    سود مرکب من بعد از 
+    <select class="after" name="period" id="period">
+      <option value="0.5">6 ماه</option>
+      <option value="1">1 سال</option>
+      <option value="2">2 سال</option>
+      <option value="5">5 سال</option>
+      <option value="10">10 سال</option>
+    </select>
+
+    چقدر است ؟
+
+    <br><br>
+
+    <button onclick="calculate_yield()"> محاسبه</button>
+    <br><br>
+
+    نتیجه: <b class="result"></b>
+    
+  </div>
+  <script>
+    function formatToCurrency(amount){
+      return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + " ریال/دلار ";
+    };
+    function calculate_yield(){
+      let init = Number(document.querySelector('.init').value);
+      let period = document.querySelector('.period').value;
+      let profit = Number(document.querySelector('.profit').value);
+      let after = Number(document.querySelector('.after').value);
+      let ratio = 365
+      if (period === "week"){
+        ratio = 52
+      }else if (period === "month"){
+        ratio = 12
+      }
+      else if (period === "year"){
+        ratio = 1
+      }
+      let result = init * ((1+(profit/100))**(after*ratio))
+      document.querySelector('.result').innerHTML = formatToCurrency(result)
+      console.log(init, period, profit, after, result)
+    }
+  </script>
+    
+</body>
+
+</html>
