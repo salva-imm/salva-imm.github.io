@@ -637,6 +637,8 @@ async function loadContributions() {
 
 /* ── REPOS ── */
 async function loadRepos() {
+  const EXCLUDED = ['salva-imm-draft', 'salva-imm.github.io'];
+
   const grid = document.getElementById('repos-grid');
   const LANG_COLORS = {
     Rust: '#f74c00', Python: '#3572A5', JavaScript: '#f1e05a',
@@ -647,6 +649,9 @@ async function loadRepos() {
   try {
     const res = await fetch(`https://api.github.com/users/${GH_USER}/repos?sort=updated&per_page=50`);
     const repos = await res.json();
+    const filtered = repos
+      .filter(r => !r.fork && !EXCLUDED.includes(r.name))
+      .slice(0, 6);
     if (!Array.isArray(repos)) throw new Error('No repos');
 
     const filtered = repos
