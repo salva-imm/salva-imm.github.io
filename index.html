@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mehdi Javidan — Senior Technical Lead & Solution Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:       #0a0c0f;
+    --surface:  #111418;
+    --border:   #1e2530;
+    --accent:   #00e5a0;
+    --accent2:  #7b61ff;
+    --rust:     #f74c00;
+    --text:     #c9d1d9;
+    --muted:    #5a6575;
+    --white:    #eaecef;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID NOISE BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,12,15,.85);
+    backdrop-filter: blur(12px);
+  }
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: .05em;
+  }
+  .nav-logo span { color: var(--muted); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 140px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 8px;
+  }
+  h1 .accent { color: var(--accent); }
+  .hero-title {
+    font-family: var(--mono);
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 28px;
+    letter-spacing: .02em;
+  }
+  .hero-desc {
+    max-width: 560px;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all .2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0c0f;
+  }
+  .btn-primary:hover { background: #00ffb3; box-shadow: 0 0 20px rgba(0,229,160,.3); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── STACK PILLS ── */
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 40px;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    padding: 4px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .pill-rust    { background: rgba(247,76,0,.12);   color: var(--rust);   border: 1px solid rgba(247,76,0,.25); }
+  .pill-python  { background: rgba(55,118,171,.12); color: #5ba3cf;       border: 1px solid rgba(55,118,171,.25); }
+  .pill-js      { background: rgba(240,219,79,.08); color: #e5c940;       border: 1px solid rgba(240,219,79,.2); }
+  .pill-chain   { background: rgba(123,97,255,.12); color: var(--accent2);border: 1px solid rgba(123,97,255,.25); }
+  .pill-infra   { background: rgba(0,229,160,.08);  color: var(--accent); border: 1px solid rgba(0,229,160,.2); }
+
+  /* ── SECTIONS ── */
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  h2 {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  /* ── GITHUB ACTIVITY ── */
+  #activity .contrib-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #activity .contrib-count {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  #activity .contrib-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* GitHub contribution grid */
+  .contrib-grid {
+    display: flex;
+    gap: 3px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .contrib-week { display: flex; flex-direction: column; gap: 3px; }
+  .contrib-day {
+    width: 11px; height: 11px;
+    border-radius: 2px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: transform .1s;
+    cursor: default;
+  }
+  .contrib-day:hover { transform: scale(1.4); }
+  .contrib-day[data-level="1"] { background: rgba(0,229,160,.2);  border-color: rgba(0,229,160,.3); }
+  .contrib-day[data-level="2"] { background: rgba(0,229,160,.45); border-color: rgba(0,229,160,.5); }
+  .contrib-day[data-level="3"] { background: rgba(0,229,160,.7);  border-color: rgba(0,229,160,.75); }
+  .contrib-day[data-level="4"] { background: var(--accent);        border-color: var(--accent); box-shadow: 0 0 6px rgba(0,229,160,.4); }
+
+  .repos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .repo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    transition: border-color .2s, transform .2s;
+    text-decoration: none;
+    display: block;
+  }
+  .repo-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .repo-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .repo-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    min-height: 40px;
+  }
+  .repo-meta {
+    display: flex;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    align-items: center;
+  }
+  .repo-lang { display: flex; align-items: center; gap: 5px; }
+  .lang-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .star-count { display: flex; align-items: center; gap: 4px; }
+
+  /* ── EXPERIENCE ── */
+  .exp-list { display: flex; flex-direction: column; gap: 28px; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: border-color .2s;
+  }
+  .exp-item:hover { border-color: var(--border); border-left: 2px solid var(--accent); }
+  .exp-role {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+  .exp-company {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .exp-desc { font-size: 13px; color: var(--text); line-height: 1.7; }
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .exp-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  /* ── CONTACT ── */
+  #contact { border-bottom: none; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all .2s;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  .contact-icon { font-size: 18px; }
+
+  /* ── LOADING STATES ── */
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--border) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  .error-state {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding: 20px;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── CURSOR BLINK ── */
+  .cursor {
+    display: inline-block;
+    width: 2px; height: 1.1em;
+    background: var(--accent);
+    margin-left: 3px;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .exp-item { grid-template-columns: 1fr; }
+    .exp-period { margin-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="nav-logo">salva<span>@dev</span> <span class="cursor"></span></div>
+    <ul class="nav-links">
+      <li><a href="#activity">Activity</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Open to Senior & Architect Roles</div>
+    <h1>Mehdi <span class="accent">Javidan</span></h1>
+    <p class="hero-title">Senior Technical Lead · Solution Architect · 10+ yrs</p>
+    <p class="hero-desc">
+      Backend architect specialising in high-scale distributed systems, Web3 infrastructure,
+      and cloud-native platforms. Proven track record delivering crypto trading engines,
+      event-driven microservices, and smart contract data pipelines — from 0 to production.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://github.com/salva-imm" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/mehdi-javidan-b5b56b173/" target="_blank">LinkedIn</a>
+      <a class="btn btn-ghost" href="mailto:mehdi@voidemperor.dev">mehdi@voidemperor.dev</a>
+      <a class="btn btn-ghost" href="tel:+37455656738">+374 55 65 67 38</a>
+    </div>
+    <div class="stack-row">
+      <span class="pill pill-js">Node.js · TypeScript · NestJS</span>
+      <span class="pill pill-python">Python · FastAPI · Django · Celery</span>
+      <span class="pill pill-rust">Rust · Axum · Tokio</span>
+      <span class="pill pill-chain">Web3 · EVM · Smart Contracts</span>
+      <span class="pill pill-infra">K8s · AWS · Kafka · PostgreSQL</span>
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB ACTIVITY -->
+<section id="activity">
+  <div class="container">
+    <div class="section-label">GitHub Activity</div>
+    <div class="contrib-header">
+      <div>
+        <div class="contrib-count" id="contrib-count">—</div>
+        <div class="contrib-sub">contributions in the last year · <a href="https://github.com/salva-imm" target="_blank" style="color:var(--accent);text-decoration:none">salva-imm</a></div>
+      </div>
+    </div>
+    <div class="contrib-grid" id="contrib-grid">
+      <!-- generated by JS -->
+    </div>
+    <div class="repos-grid" id="repos-grid">
+      <div class="skeleton" style="height:120px"></div>
+      <div class="skeleton" style="height:120px"></div>
+      <div class="skeleton" style="height:120px"></div>
+      <div class="skeleton" style="height:120px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Experience</div>
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Senior Staff Engineer — Backend &amp; Blockchain</div>
+          <div class="exp-company">Dexu AI · Zurich, Switzerland (Remote)</div>
+          <div class="exp-desc">Architected Python/Node.js backend pipelines integrating on-chain data with AI search for real-time querying across multiple blockchains. Built smart contract indexers and data ingestion modules to optimise Web3 data flow. Delivered event-driven architectures with robust error-handling for high system reliability.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Python</span><span class="exp-tag">Node.js</span><span class="exp-tag">Smart Contract Indexers</span>
+            <span class="exp-tag">Web3</span><span class="exp-tag">Event-Driven</span><span class="exp-tag">Kafka</span>
+          </div>
+        </div>
+        <div class="exp-period">Mar 2025 — Present</div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Senior Technical Lead</div>
+          <div class="exp-company">ADLAS Digital Solution GmbH (Huemer Group) · Vienna (Remote)</div>
+          <div class="exp-desc">Spearheaded the SSP Cloud Provider Platform — secure, highly available cloud solutions for enterprise clients. Streamlined CI/CD pipelines cutting delivery times by 25%. Led cross-functional teams building performance-critical backend systems.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Cloud Architecture</span><span class="exp-tag">Kubernetes</span><span class="exp-tag">CI/CD</span>
+            <span class="exp-tag">AWS</span><span class="exp-tag">Team Lead</span>
+          </div>
+        </div>
+        <div class="exp-period">Jan 2024 — Feb 2025</div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Senior Technical Lead</div>
+          <div class="exp-company">Exwino</div>
+          <div class="exp-desc">Architected a high-performance Centralised Exchange (CEX) and OTC crypto trading platform at 95% uptime. Developed a secure multi-currency wallet manager using advanced cryptographic techniques. Engineered a real-time social trading network for strategy sharing and execution.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">CEX</span><span class="exp-tag">OTC Trading</span><span class="exp-tag">Crypto Wallets</span>
+            <span class="exp-tag">Node.js</span><span class="exp-tag">ScyllaDB</span><span class="exp-tag">Redis</span>
+          </div>
+        </div>
+        <div class="exp-period">Nov 2022 — Jan 2024</div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Tech Lead &amp; DevOps Specialist</div>
+          <div class="exp-company">Pyango GmbH · Zurich (Remote)</div>
+          <div class="exp-desc">Led backend for Shop-Circuit, a headless CMS reducing time-to-market for digital storefronts. Designed Helios, a Git-integrated hub for accounting and user data. Built a custom GraphQL cache server achieving 20% faster query resolution.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Node.js</span><span class="exp-tag">GraphQL</span><span class="exp-tag">Headless CMS</span>
+            <span class="exp-tag">DevOps</span><span class="exp-tag">Docker</span>
+          </div>
+        </div>
+        <div class="exp-period">Aug 2019 — Dec 2022</div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Senior &amp; Fullstack Engineer (Early Career)</div>
+          <div class="exp-company">Sharifin · Baran · Madya · DadeKavan</div>
+          <div class="exp-desc">Built fintech microservices and a P2P money request system at Sharifin; integrated local stock market APIs. Managed backend teams, built a drag-and-drop site builder, and engineered Safir Taxi — a real-time geospatial mobility platform.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">FinTech</span><span class="exp-tag">Microservices</span><span class="exp-tag">Geospatial</span>
+            <span class="exp-tag">Python</span><span class="exp-tag">Node.js</span>
+          </div>
+        </div>
+        <div class="exp-period">Jan 2011 — Aug 2019</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <h2>Let's build something.</h2>
+    <p style="color:var(--muted);font-size:14px;margin:8px 0 24px">Open to Senior Engineering, Tech Lead &amp; Solution Architect roles. Available for contract and full-time.</p>
+    <div class="contact-grid">
+      <a class="contact-link" href="https://github.com/salva-imm" target="_blank">
+        <span class="contact-icon">⌥</span> GitHub · salva-imm
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/mehdi-javidan-b5b56b173/" target="_blank">
+        <span class="contact-icon">⬡</span> LinkedIn
+      </a>
+      <a class="contact-link" href="mailto:mehdi@voidemperor.dev">
+        <span class="contact-icon">✉</span> mehdi@voidemperor.dev
+      </a>
+      <a class="contact-link" href="mailto:mehdi73ee@gmail.com">
+        <span class="contact-icon">✉</span> mehdi73ee@gmail.com
+      </a>
+      <a class="contact-link" href="tel:+37455656738">
+        <span class="contact-icon">✆</span> +374 55 65 67 38
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    built with <span style="color:var(--rust)">♥</span> in Rust-flavoured HTML ·
+    <a href="https://github.com/salva-imm" target="_blank">salva-imm</a>
+  </div>
+</footer>
+
+<script>
+const GH_USER = 'salva-imm';
+
+/* ── CONTRIBUTION HEATMAP (via GitHub SVG embed trick) ── */
+async function loadContributions() {
+  const grid = document.getElementById('contrib-grid');
+  const countEl = document.getElementById('contrib-count');
+
+  // Build a fake but realistic-looking contribution grid from public data
+  // GitHub doesn't expose contributions via REST, so we generate a plausible grid
+  // seeded from the user's public events count
+  try {
+    const eventsRes = await fetch(`https://api.github.com/users/${GH_USER}/events/public?per_page=100`);
+    const events = await eventsRes.json();
+
+    // Count events per day from the last 100 public events
+    const dayCounts = {};
+    (Array.isArray(events) ? events : []).forEach(e => {
+      const d = e.created_at?.slice(0, 10);
+      if (d) dayCounts[d] = (dayCounts[d] || 0) + 1;
+    });
+
+    // Generate 52 weeks of cells
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(start.getDate() - 364);
+
+    let totalContribs = 0;
+    let html = '';
+
+    for (let w = 0; w < 53; w++) {
+      html += '<div class="contrib-week">';
+      for (let d = 0; d < 7; d++) {
+        const date = new Date(start);
+        date.setDate(start.getDate() + w * 7 + d);
+        if (date > today) { html += '<div class="contrib-day" data-level="0"></div>'; continue; }
+        const key = date.toISOString().slice(0, 10);
+        const count = dayCounts[key] || 0;
+        const level = count === 0 ? 0 : count === 1 ? 1 : count <= 3 ? 2 : count <= 6 ? 3 : 4;
+        totalContribs += count;
+        html += `<div class="contrib-day" data-level="${level}" title="${key}: ${count} contributions"></div>`;
+      }
+      html += '</div>';
+    }
+
+    grid.innerHTML = html;
+    // Show total from events (partial — GitHub's public events cap at 300)
+    countEl.textContent = totalContribs > 0 ? `${totalContribs}+` : '—';
+  } catch(e) {
+    grid.innerHTML = '<div class="error-state">Could not load contribution data — <a href="https://github.com/' + GH_USER + '" target="_blank" style="color:var(--accent)">view on GitHub</a></div>';
+  }
+}
+
+/* ── REPOS ── */
+async function loadRepos() {
+  const grid = document.getElementById('repos-grid');
+  const LANG_COLORS = {
+    Rust: '#f74c00', Python: '#3572A5', JavaScript: '#f1e05a',
+    TypeScript: '#3178c6', Solidity: '#aa6746', Go: '#00ADD8',
+    Shell: '#89e051', HTML: '#e34c26', default: '#858585'
+  };
+
+  try {
+    const res = await fetch(`https://api.github.com/users/${GH_USER}/repos?sort=updated&per_page=50`);
+    const repos = await res.json();
+    if (!Array.isArray(repos)) throw new Error('No repos');
+
+    const filtered = repos
+      .filter(r => !r.fork)
+      .slice(0, 6);
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="error-state">No public repositories found yet.</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(r => {
+      const lang = r.language || '';
+      const color = LANG_COLORS[lang] || LANG_COLORS.default;
+      const desc = r.description || 'No description yet.';
+      const stars = r.stargazers_count;
+      return `
+        <a class="repo-card" href="${r.html_url}" target="_blank">
+          <div class="repo-name">⬡ ${r.name}</div>
+          <div class="repo-desc">${desc}</div>
+          <div class="repo-meta">
+            ${lang ? `<span class="repo-lang"><span class="lang-dot" style="background:${color}"></span>${lang}</span>` : ''}
+            <span class="star-count">★ ${stars}</span>
+            <span>${timeAgo(r.updated_at)}</span>
+          </div>
+        </a>`;
+    }).join('');
+  } catch(e) {
+    grid.innerHTML = `<div class="error-state" style="grid-column:1/-1">Could not load repos — <a href="https://github.com/${GH_USER}" target="_blank" style="color:var(--accent)">view on GitHub</a></div>`;
+  }
+}
+
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso);
+  const d = Math.floor(diff / 86400000);
+  if (d === 0) return 'today';
+  if (d < 7) return `${d}d ago`;
+  if (d < 30) return `${Math.floor(d/7)}w ago`;
+  if (d < 365) return `${Math.floor(d/30)}mo ago`;
+  return `${Math.floor(d/365)}y ago`;
+}
+
+loadContributions();
+loadRepos();
+</script>
+</body>
+</html>
