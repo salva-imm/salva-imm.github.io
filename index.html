@@ -649,13 +649,10 @@ async function loadRepos() {
   try {
     const res = await fetch(`https://api.github.com/users/${GH_USER}/repos?sort=updated&per_page=50`);
     const repos = await res.json();
+
+    if (!Array.isArray(repos)) throw new Error('No repos');
     const filtered = repos
       .filter(r => !r.fork && !EXCLUDED.includes(r.name))
-      .slice(0, 6);
-    if (!Array.isArray(repos)) throw new Error('No repos');
-
-    const filtered = repos
-      .filter(r => !r.fork)
       .slice(0, 6);
 
     if (filtered.length === 0) {
